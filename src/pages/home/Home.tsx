@@ -6,9 +6,9 @@ import {
     HeadsetIcon,
     TagIcon,
 } from "@phosphor-icons/react";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { buscar } from "../../service/Service";
 
 export default function Home() {
 
@@ -33,23 +33,9 @@ export default function Home() {
 
     useEffect(() => {
 
-        axios
-            .get("https://farmacia-ug0p.onrender.com/categorias")
-            .then((res) => {
-                setCategorias(res.data);
-            })
-            .catch((erro) => {
-                console.error("Erro ao buscar categorias:", erro);
-            });
+        buscar("/categorias", setCategorias, {});
 
-        axios
-            .get("https://farmacia-ug0p.onrender.com/produtos")
-            .then((res) => {
-                setProdutos(res.data);
-            })
-            .catch((erro) => {
-                console.error("Erro ao buscar produtos:", erro);
-            });
+        buscar("/produtos", setProdutos, {});
 
     }, []);
 
@@ -334,11 +320,11 @@ export default function Home() {
 
                         {/* Botão */}
                         <Link to="/contato">
-                        <button
-                            className="shrink-0 bg-white text-orange-600 font-bold px-7 py-3 rounded-full hover:bg-orange-50 transition-colors shadow-sm"
-                        >
-                            Fale com a gente
-                        </button>
+                            <button
+                                className="shrink-0 bg-white text-orange-600 font-bold px-7 py-3 rounded-full hover:bg-orange-50 transition-colors shadow-sm"
+                            >
+                                Fale com a gente
+                            </button>
                         </Link>
 
                     </div>

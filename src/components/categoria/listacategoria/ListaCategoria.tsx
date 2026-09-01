@@ -9,6 +9,7 @@ import CardCategoria from "../cardcategoria/CardCategoria";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SyncLoader } from "react-spinners";
+import { buscar } from "../../../service/Service";
 
 interface Categoria {
     id: number;
@@ -35,50 +36,60 @@ function ListaCategoria() {
         useState<Categoria | null>(null);
 
     const [busca, setBusca] = useState("");
-    
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         buscarCategorias();
         buscarProdutos();
-
     }, []);
 
     async function buscarCategorias() {
+
         try {
+
             setIsLoading(true);
-            const resposta = await fetch(
-                "https://farmacia-ug0p.onrender.com/categorias"
+
+            await buscar(
+                "/categorias",
+                setCategorias,
+                {}
             );
-            const dados = await resposta.json();
-            setCategorias(dados);
+
         } catch (error) {
 
+            console.error("Erro ao buscar categorias:", error);
             toast.error("Erro ao buscar categorias");
+
         } finally {
 
             setIsLoading(false);
+
         }
+
     }
 
     async function buscarProdutos() {
+
         try {
+
             setIsLoading(true);
 
-            const resposta = await fetch(
-                "https://farmacia-ug0p.onrender.com/produtos"
+            await buscar(
+                "/produtos",
+                setProdutos,
+                {}
             );
-
-            const dados = await resposta.json();
-
-            setProdutos(dados);
 
         } catch (error) {
 
+            console.error("Erro ao buscar produtos:", error);
             toast.error("Erro ao buscar produtos");
 
         } finally {
+
             setIsLoading(false);
+
         }
 
     }
@@ -113,6 +124,7 @@ function ListaCategoria() {
 
                 {/* Cabeçalho */}
                 <div className="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+
                     <div>
 
                         <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800 mt-1">
@@ -122,8 +134,8 @@ function ListaCategoria() {
                         <p className="text-gray-500 mt-2">
                             Encontre os produtos que você procura.
                         </p>
-                    </div>
 
+                    </div>
 
                     {/* Botão Nova Categoria */}
                     <Link
@@ -136,10 +148,11 @@ function ListaCategoria() {
 
                 </div>
 
-
                 {/* Busca */}
                 <div className="mb-8">
+
                     <div className="flex items-center bg-white border border-orange-100 rounded-xl px-4 py-3 shadow-sm">
+
                         <MagnifyingGlassIcon
                             size={22}
                             className="text-orange-500"
@@ -154,15 +167,19 @@ function ListaCategoria() {
                             placeholder="Buscar categoria..."
                             className="w-full ml-3 outline-none text-gray-700 placeholder:text-gray-400"
                         />
-                    </div>
-                </div>
 
+                    </div>
+
+                </div>
 
                 {/* Lista de categorias */}
                 {!isLoading && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
                         {categoriasFiltradas.map((categoria) => (
+
                             <div key={categoria.id}>
+
                                 <CardCategoria
                                     categoria={categoria}
                                 />
@@ -176,14 +193,17 @@ function ListaCategoria() {
                                 >
                                     Ver produtos →
                                 </button>
+
                             </div>
+
                         ))}
+
                     </div>
                 )}
 
-
                 {/* Modal */}
                 {categoriaSelecionada && (
+
                     <div
                         className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
                         onClick={() =>
@@ -200,7 +220,9 @@ function ListaCategoria() {
 
                             {/* Cabeçalho do modal */}
                             <div className="flex items-center justify-between mb-6">
+
                                 <div>
+
                                     <span className="text-sm font-bold uppercase tracking-wider text-orange-500">
                                         Produtos
                                     </span>
@@ -208,6 +230,7 @@ function ListaCategoria() {
                                     <h2 className="text-2xl md:text-3xl font-extrabold text-gray-800">
                                         {categoriaSelecionada.nome}
                                     </h2>
+
                                 </div>
 
                                 <button
@@ -224,19 +247,24 @@ function ListaCategoria() {
 
                             {/* Produtos */}
                             {produtosDaCategoria.length > 0 ? (
+
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+
                                     {produtosDaCategoria.map((produto) => (
+
                                         <div
                                             key={produto.id}
                                             className="rounded-xl border border-orange-100 bg-white p-4 shadow-sm"
                                         >
 
                                             <div className="h-36 bg-orange-50 rounded-lg overflow-hidden mb-4">
+
                                                 <img
                                                     src={produto.foto}
                                                     alt={produto.nome}
                                                     className="w-full h-full object-cover"
                                                 />
+
                                             </div>
 
                                             <p className="text-xs text-gray-400">
@@ -250,28 +278,42 @@ function ListaCategoria() {
                                             <p className="text-lg font-bold text-orange-600 mt-3">
                                                 R$ {produto.preco}
                                             </p>
+
                                         </div>
+
                                     ))}
+
                                 </div>
+
                             ) : (
 
                                 <div className="py-12 text-center">
+
                                     <ShoppingBagIcon
                                         size={48}
                                         className="mx-auto text-orange-300"
                                     />
+
                                     <p className="mt-4 font-semibold text-gray-700">
                                         Nenhum produto encontrado.
                                     </p>
+
                                     <p className="text-sm text-gray-500 mt-1">
                                         Essa categoria ainda não possui produtos.
                                     </p>
+
                                 </div>
+
                             )}
+
                         </div>
+
                     </div>
+
                 )}
+
             </section>
+
         </main>
     );
 }
