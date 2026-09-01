@@ -26,13 +26,13 @@ function Navbar() {
                         <Link to="/home">Home</Link>
                     </span>
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                        Produtos
+                        <Link to="/produtos">Produtos</Link>
                     </span>
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
                         <Link to="/categorias">Categorias</Link>
                     </span>
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                        Contato
+                        <Link to="/contato">Contato</Link>
                     </span>
 
                 </div>
@@ -58,12 +58,13 @@ function Navbar() {
                     </div>
 
                     {/* Botão */}
-                    <button
-                        className="hidden sm:flex items-center px-5 py-2.5 rounded-full bg-orange-500 text-white font-bold text-sm hover:bg-orange-600 transition-colors shadow-sm"
-                    >
-                        Fale Conosco
-                    </button>
-
+                    <Link to="/contato">
+                        <button
+                            className="hidden sm:flex items-center px-5 py-2.5 rounded-full bg-orange-500 text-white font-bold text-sm hover:bg-orange-600 transition-colors shadow-sm"
+                        >
+                            Fale Conosco
+                        </button>
+                    </Link>
 
                     {/* Menu Mobile - Hamburguer */}
                     <button
@@ -90,13 +91,13 @@ function Navbar() {
                             <Link to="/home">Home</Link>
                         </span>
                         <span className="px-3 py-3 rounded-lg text-gray-600 font-semibold hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition-colors">
-                            Produtos
+                            <Link to="/produtos">Produtos</Link>
                         </span>
                         <span className="px-3 py-3 rounded-lg text-gray-600 font-semibold hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition-colors">
                             <Link to="/categorias">Categorias</Link>
                         </span>
                         <span className="px-3 py-3 rounded-lg text-gray-600 font-semibold hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition-colors">
-                            Contato
+                            <Link to="/contato">Contato</Link>
                         </span>
                     </div>
 

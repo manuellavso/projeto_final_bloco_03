@@ -3,37 +3,38 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { buscar, deletar } from "../../../service/Service";
 import axios from "axios";
-import type Categoria from "../../../models/Categoria";
+import type Produto from "../../../models/Produto";
 import { toast } from "react-toastify";
 
-function DeletarCategoria() {
+function DeletarProduto() {
 
-    // Objeto responsável por redirecionar a categoria para outra rota
+    // Objeto responsável por redirecionar o produto para outra rota
     const navigate = useNavigate();
 
     // Estado responsável por controlar o loader
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    // Estado responsável por armazenar os dados da categoria
-    const [categoria, setCategoria] = useState<Categoria>({} as Categoria);
+    // Estado responsável por armazenar os dados do produto
+    const [produto, setProduto] = useState<Produto>({} as Produto);
 
-    // Acessar o parâmetro da rota (id da categoria)
+    // Acessar o parâmetro da rota (id do produto)
     const { id } = useParams<{ id: string }>();
 
-    // Função responsável por buscar uma categoria pelo ID no Backend
-    async function buscarCategoriaPorId() {
+
+    // Função responsável por buscar um produto pelo ID no Backend
+    async function buscarProdutoPorId() {
 
         setIsLoading(true);
 
         try {
 
-            await buscar(`/categorias/${id}`, setCategoria, {});
+            await buscar(`/produtos/${id}`, setProduto, {});
 
         } catch (error) {
 
             if (axios.isAxiosError(error)) {
                 toast.error(
-                    `Erro ao consultar a categoria: ${error.response?.status}`
+                    `Erro ao consultar o produto: ${error.response?.status}`
                 );
             }
 
@@ -45,26 +46,27 @@ function DeletarCategoria() {
 
     }
 
-    // useEffect para buscar a categoria
+
+    // useEffect para buscar o produto
     useEffect(() => {
 
         if (id !== undefined) {
-            buscarCategoriaPorId();
+            buscarProdutoPorId();
         }
 
     }, [id]);
 
 
-    // Função responsável por deletar uma categoria pelo ID
-    async function deletarCategoria() {
+    // Função responsável por deletar um produto pelo ID
+    async function deletarProduto() {
 
         setIsLoading(true);
 
         try {
 
-            await deletar(`/categorias/${id}`, {});
+            await deletar(`/produtos/${id}`, {});
 
-            toast.success("Categoria deletada com sucesso!");
+            toast.success("Produto deletado com sucesso!");
 
             retornar();
 
@@ -72,7 +74,7 @@ function DeletarCategoria() {
 
             if (axios.isAxiosError(error)) {
                 toast.error(
-                    `Erro ao deletar a categoria: ${error.response?.status}`
+                    `Erro ao deletar o produto: ${error.response?.status}`
                 );
             }
 
@@ -84,9 +86,11 @@ function DeletarCategoria() {
 
     }
 
+
     function retornar() {
-        navigate("/categorias");
+        navigate("/produtos");
     }
+
 
     return (
 
@@ -96,8 +100,9 @@ function DeletarCategoria() {
 
                 <div className="rounded-2xl border border-red-100 bg-white p-8 shadow-sm text-center">
 
-                    {/* Ícone de aviso*/}
+                    {/* Ícone de aviso */}
                     <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-50 text-red-500">
+
                         <WarningIcon
                             size={34}
                             weight="fill"
@@ -105,18 +110,26 @@ function DeletarCategoria() {
 
                     </div>
 
+
                     <h1 className="mt-6 text-2xl font-extrabold text-gray-800">
-                        Deletar categoria?
+
+                        Deletar produto?
+
                     </h1>
+
 
                     <p className="mt-3 text-gray-500">
 
-                        Tem certeza que deseja deletar esta categoria{" "}
+                        Tem certeza que deseja deletar este produto{" "}
 
                         <span className="font-semibold text-slate-800">
-                            {categoria.nome}
+
+                            {produto.nome}
+
                         </span>
-                            ?   
+
+                        ?
+
                     </p>
 
 
@@ -124,28 +137,53 @@ function DeletarCategoria() {
                     <div className="mt-8 flex flex-col sm:flex-row gap-3">
 
                         <Link
-                            to="/categorias"
-                            className=" flex-1 rounded-xl  border border-gray-200 px-5 py-3 font-bold  text-gray-600 hover:bg-gray-50 transition-colors"
+                            to="/produtos"
+                            className="
+                                flex-1
+                                rounded-xl
+                                border border-gray-200
+                                px-5 py-3
+                                font-bold
+                                text-gray-600
+                                hover:bg-gray-50
+                                transition-colors
+                            "
                         >
+
                             Cancelar
+
                         </Link>
 
 
                         <button
                             type="button"
-                            onClick={deletarCategoria}
+                            onClick={deletarProduto}
                             disabled={isLoading}
-                            className=" flex-1 flex items-center justify-center gap-2 rounded-xl bg-red-500 px-5 py-3 font-bold text-white hover:bg-red-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                            className="
+                                flex-1
+                                flex items-center justify-center gap-2
+                                rounded-xl
+                                bg-red-500
+                                px-5 py-3
+                                font-bold
+                                text-white
+                                hover:bg-red-600
+                                transition-colors
+                                disabled:opacity-60
+                                disabled:cursor-not-allowed
+                            "
                         >
 
                             <TrashIcon
-                                size={20} weight="bold"
+                                size={20}
+                                weight="bold"
                             />
 
                             {isLoading
                                 ? "Deletando..."
                                 : "Deletar"
                             }
+
                         </button>
 
                     </div>
@@ -160,4 +198,4 @@ function DeletarCategoria() {
 
 }
 
-export default DeletarCategoria;
+export default DeletarProduto;

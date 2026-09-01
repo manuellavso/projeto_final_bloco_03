@@ -124,20 +124,7 @@ function FormCategoria() {
 
             <section className="max-w-2xl mx-auto px-4 md:px-8 py-12 md:py-16">
 
-                <Link
-                    to="/categorias"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors mb-8"
-                >
-                    <ArrowLeftIcon size={18} />
-                    Voltar para categorias
-                </Link>
-
-
                 <div className="mb-8">
-
-                    <span className="text-sm font-bold uppercase tracking-wider text-orange-500">
-                        Farmanu
-                    </span>
 
                     <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800 mt-1">
                         {modoEdicao
@@ -183,7 +170,7 @@ function FormCategoria() {
                     <button
                         type="submit"
                         disabled={carregando}
-                        className=" mt-6 w-full flex items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3 font-bold text-white shadow-sm transition-colors hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="mt-6 w-full flex items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3 font-bold text-white shadow-sm transition-colors hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed"
                     >
 
                         <CheckIcon size={20} weight="bold" />
@@ -194,6 +181,15 @@ function FormCategoria() {
                                 ? "Atualizar categoria"
                                 : "Cadastrar categoria"}
 
+                    </button>
+
+                    {/* Cancelar */}
+                    <button
+                        type="button"
+                        onClick={() => navigate("/categorias")}
+                        className="mt-3 w-full rounded-xl border border-gray-200 px-5 py-3 font-bold text-gray-600 hover:bg-gray-50 transition-colors"
+                    >
+                        Cancelar
                     </button>
 
                 </form>

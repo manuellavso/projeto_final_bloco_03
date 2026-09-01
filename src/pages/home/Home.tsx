@@ -8,14 +8,28 @@ import {
 } from "@phosphor-icons/react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Home() {
+
     interface Categoria {
         id: number;
         nome: string;
     }
 
+    interface Produto {
+        id: number;
+        nome: string;
+        preco: number;
+        foto: string;
+        categoria: {
+            id: number;
+            nome: string;
+        };
+    }
+
     const [categorias, setCategorias] = useState<Categoria[]>([]);
+    const [produtos, setProdutos] = useState<Produto[]>([]);
 
     useEffect(() => {
 
@@ -26,6 +40,15 @@ export default function Home() {
             })
             .catch((erro) => {
                 console.error("Erro ao buscar categorias:", erro);
+            });
+
+        axios
+            .get("https://farmacia-ug0p.onrender.com/produtos")
+            .then((res) => {
+                setProdutos(res.data);
+            })
+            .catch((erro) => {
+                console.error("Erro ao buscar produtos:", erro);
             });
 
     }, []);
@@ -146,9 +169,11 @@ export default function Home() {
 
             {/* Categorias */}
             <section className="max-w-7xl mx-auto w-full px-4 md:px-8 py-8">
+
                 <div className="flex items-end justify-between mb-6">
 
                     <div>
+
                         <span className="text-sm font-bold uppercase tracking-wider text-orange-500">
                             Explore nossos produtos
                         </span>
@@ -156,9 +181,11 @@ export default function Home() {
                         <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-1">
                             Categorias
                         </h2>
+
                     </div>
 
                 </div>
+
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
 
@@ -167,20 +194,24 @@ export default function Home() {
                         <div
                             key={categoria.id}
                             className="
-                                group flex flex-col items-center  justify-center  text-center min-h-36
+                                group flex flex-col items-center justify-center text-center min-h-36
                                 p-6 rounded-xl bg-orange-50 border border-orange-100 cursor-pointer
                                 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:border-orange-200 hover:shadow-md
-                            ">
+                            "
+                        >
 
                             <div
                                 className="
                                     flex items-center justify-center w-14 h-14 rounded-full bg-white text-orange-500
                                     shadow-sm transition-transform duration-300 group-hover:scale-110
-                                ">
-                            
+                                "
+                            >
+
                                 <TagIcon
-                                    size={30} weight="fill"
+                                    size={30}
+                                    weight="fill"
                                 />
+
                             </div>
 
                             <h3
@@ -194,9 +225,13 @@ export default function Home() {
                             </p>
 
                         </div>
+
                     ))}
+
                 </div>
+
             </section>
+
 
             {/* Produtos */}
             <section className="max-w-7xl mx-auto w-full px-4 md:px-8 py-8">
@@ -204,6 +239,7 @@ export default function Home() {
                 <div className="flex items-end justify-between mb-6">
 
                     <div>
+
                         <span className="text-sm font-bold uppercase tracking-wider text-orange-500">
                             Recomendados para você
                         </span>
@@ -211,41 +247,48 @@ export default function Home() {
                         <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-1">
                             Produtos
                         </h2>
+
                     </div>
 
-                    <button className="hidden sm:block text-orange-600 font-bold hover:text-orange-700">
-                        Ver todos
-                    </button>
+                    <Link to="/produtos">
+                        <button className="hidden sm:block text-orange-600 font-bold hover:text-orange-700">
+                            Ver todos
+                        </button>
+                    </Link>
 
                 </div>
 
 
-                {/* Futuramente: produtos vindos da API */}
+                {/* Produtos vindos da API */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-5 px-4 py-8">
 
-                    {[1, 2, 3, 4].map((item) => (
+                    {produtos.slice(0, 4).map((produto) => (
 
                         <div
-                            key={item}
+                            key={produto.id}
                             className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow"
                         >
 
-                            <div className="h-40 bg-gray-50 rounded-lg mb-4 flex items-center justify-center">
-                                <span className="text-gray-400 text-sm">
-                                    Imagem do produto
-                                </span>
+                            <div className="h-40 bg-gray-50 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+
+                                <img
+                                    src={produto.foto}
+                                    alt={produto.nome}
+                                    className="w-full h-full object-cover"
+                                />
+
                             </div>
 
                             <p className="text-xs text-gray-400">
-                                Categoria
+                                {produto.categoria?.nome}
                             </p>
 
                             <h3 className="font-semibold text-gray-800 mt-1">
-                                Produto da Farmácia
+                                {produto.nome}
                             </h3>
 
                             <p className="text-lg font-bold text-orange-600 mt-3">
-                                R$ 00,00
+                                R$ {Number(produto.preco).toFixed(2).replace(".", ",")}
                             </p>
 
                         </div>
@@ -253,6 +296,7 @@ export default function Home() {
                     ))}
 
                 </div>
+
 
                 {/* Central de Atendimento */}
                 <section className="max-w-7xl mx-auto w-full px-4 md:px-8 py-8">
@@ -263,15 +307,18 @@ export default function Home() {
 
                             {/* Ícone */}
                             <div className="w-16 h-16 shrink-0 rounded-full bg-white flex items-center justify-center shadow-sm">
+
                                 <HeadsetIcon
                                     size={32}
                                     weight="fill"
                                     className="text-orange-500"
                                 />
+
                             </div>
 
                             {/* Texto */}
                             <div>
+
                                 <h2 className="text-2xl md:text-3xl font-bold text-white">
                                     Central de atendimento
                                 </h2>
@@ -279,16 +326,20 @@ export default function Home() {
                                 <p className="mt-2 text-orange-50">
                                     Confira as dúvidas mais frequentes ou fale com a gente.
                                 </p>
+
                             </div>
 
                         </div>
 
+
                         {/* Botão */}
+                        <Link to="/contato">
                         <button
                             className="shrink-0 bg-white text-orange-600 font-bold px-7 py-3 rounded-full hover:bg-orange-50 transition-colors shadow-sm"
                         >
                             Fale com a gente
                         </button>
+                        </Link>
 
                     </div>
 
