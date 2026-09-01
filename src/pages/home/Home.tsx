@@ -4,9 +4,32 @@ import {
     ShieldCheckIcon,
     TruckIcon,
     HeadsetIcon,
+    TagIcon,
 } from "@phosphor-icons/react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+    interface Categoria {
+        id: number;
+        nome: string;
+    }
+
+    const [categorias, setCategorias] = useState<Categoria[]>([]);
+
+    useEffect(() => {
+
+        axios
+            .get("https://farmacia-ug0p.onrender.com/categorias")
+            .then((res) => {
+                setCategorias(res.data);
+            })
+            .catch((erro) => {
+                console.error("Erro ao buscar categorias:", erro);
+            });
+
+    }, []);
+
     return (
         <main className="grow w-full bg-white">
 
@@ -123,51 +146,57 @@ export default function Home() {
 
             {/* Categorias */}
             <section className="max-w-7xl mx-auto w-full px-4 md:px-8 py-8">
+                <div className="flex items-end justify-between mb-6">
 
-                <div className="mb-6">
+                    <div>
+                        <span className="text-sm font-bold uppercase tracking-wider text-orange-500">
+                            Explore nossos produtos
+                        </span>
 
-                    <span className="text-sm font-bold uppercase tracking-wider text-orange-500">
-                        Explore nossos produtos
-                    </span>
-
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-1">
-                        Categorias
-                    </h2>
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-1">
+                            Categorias
+                        </h2>
+                    </div>
 
                 </div>
-
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
 
-                    <div className="group p-6 rounded-xl bg-orange-50 border border-orange-100 hover:bg-orange-100 transition-colors cursor-pointer">
-                        <div className="text-3xl mb-3">💊</div>
+                    {categorias.slice(0, 4).map((categoria) => (
 
-                        <h3 className="font-bold text-gray-800">
-                            Medicamentos
-                        </h3>
+                        <div
+                            key={categoria.id}
+                            className="
+                                group flex flex-col items-center  justify-center  text-center min-h-36
+                                p-6 rounded-xl bg-orange-50 border border-orange-100 cursor-pointer
+                                transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:border-orange-200 hover:shadow-md
+                            ">
 
-                        <p className="text-sm text-gray-500 mt-1">
-                            Cuidados para sua saúde
-                        </p>
-                    </div>
+                            <div
+                                className="
+                                    flex items-center justify-center w-14 h-14 rounded-full bg-white text-orange-500
+                                    shadow-sm transition-transform duration-300 group-hover:scale-110
+                                ">
+                            
+                                <TagIcon
+                                    size={30} weight="fill"
+                                />
+                            </div>
 
+                            <h3
+                                className="mt-3 font-bold text-gray-800 transition-colors duration-300 group-hover:text-orange-600"
+                            >
+                                {categoria.nome}
+                            </h3>
 
-                    <div className="group p-6 rounded-xl bg-orange-50 border border-orange-100 hover:bg-orange-100 transition-colors cursor-pointer">
-                        <div className="text-3xl mb-3">🧴</div>
+                            <p className="text-sm text-gray-500 mt-1">
+                                Confira nossos produtos
+                            </p>
 
-                        <h3 className="font-bold text-gray-800">
-                            Cosméticos
-                        </h3>
-
-                        <p className="text-sm text-gray-500 mt-1">
-                            Cuidados diário
-                        </p>
-                    </div>
-
+                        </div>
+                    ))}
                 </div>
-
             </section>
-
 
             {/* Produtos */}
             <section className="max-w-7xl mx-auto w-full px-4 md:px-8 py-8">

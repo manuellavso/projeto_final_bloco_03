@@ -15,7 +15,7 @@ function Navbar() {
                 <Link
                     to="/"
                     className="text-2xl md:text-3xl font-extrabold tracking-tight text-orange-600"
-                >    
+                >
                     Farma<span className="text-orange-400">nu</span>
                 </Link>
 
@@ -23,13 +23,13 @@ function Navbar() {
                 <div className="hidden md:flex items-center gap-8 font-semibold text-gray-600">
 
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                        Home
+                        <Link to="/home">Home</Link>
                     </span>
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
                         Produtos
                     </span>
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                        Categorias
+                        <Link to="/categorias">Categorias</Link>
                     </span>
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
                         Contato
@@ -87,13 +87,13 @@ function Navbar() {
 
                     <div className="flex flex-col gap-1">
                         <span className="px-3 py-3 rounded-lg text-gray-600 font-semibold hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition-colors">
-                            Home
+                            <Link to="/home">Home</Link>
                         </span>
                         <span className="px-3 py-3 rounded-lg text-gray-600 font-semibold hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition-colors">
                             Produtos
                         </span>
                         <span className="px-3 py-3 rounded-lg text-gray-600 font-semibold hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition-colors">
-                            Categorias
+                            <Link to="/categorias">Categorias</Link>
                         </span>
                         <span className="px-3 py-3 rounded-lg text-gray-600 font-semibold hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition-colors">
                             Contato
