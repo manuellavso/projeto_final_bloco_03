@@ -1,5 +1,6 @@
 import { ListIcon, ShoppingCartIcon, XIcon } from "@phosphor-icons/react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
 
@@ -11,9 +12,12 @@ function Navbar() {
             <nav className="max-w-7xl mx-auto h-20 px-4 md:px-8 flex items-center justify-between">
 
                 {/* Logo */}
-                <div className="text-2xl md:text-3xl font-extrabold tracking-tight text-orange-600">
+                <Link
+                    to="/"
+                    className="text-2xl md:text-3xl font-extrabold tracking-tight text-orange-600"
+                >    
                     Farma<span className="text-orange-400">nu</span>
-                </div>
+                </Link>
 
                 {/* Desktop */}
                 <div className="hidden md:flex items-center gap-8 font-semibold text-gray-600">
